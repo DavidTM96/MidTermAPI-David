@@ -6,7 +6,7 @@ export const router = Router();
 // GET /midTermAPI/v1/users
 router.use("/", async (req: Request, res: Response) => {
   const data = await pool.query(`SELECT * FROM users;`);
-  res.send(data.rows);
+  res.json(data.rows);
 });
 
 router.get("/:id", async (req: Request, res: Response) => {
@@ -17,7 +17,7 @@ router.get("/:id", async (req: Request, res: Response) => {
   if (!user) {
     return res.status(404).json({ message: `User with id ${id} not found` });
   }
-  res.send(user);
+  res.json(user);
 });
 
 // POST /midTermAPI/v1/users
@@ -29,7 +29,7 @@ router.post("/", async (req: Request, res: Response) => {
     [email, password]
   );
 
-  res.send(data.rows[0]);
+  res.status(201).json(data.rows[0]);
 });
 
 // PUT /midTermAPI/v1/users/:id
@@ -53,7 +53,7 @@ router.put("/:id", async (req: Request, res: Response) => {
     `,
     [email, password, id]
   );
-  res.send(updateUser.rows[0]);
+  res.json(updateUser.rows[0]);
 });
 
 // DELETE /midTermAPI/v1/users/:id
@@ -70,5 +70,5 @@ router.delete("/:id", async (req: Request, res: Response) => {
     `DELETE FROM users WHERE id = $1 RETURNING *`,
     [id]
   );
-  res.send(deleteUser.rows[0]);
+  res.json(deleteUser.rows[0]);
 });
