@@ -1,7 +1,0 @@
-# Capilano
-
-## Entities
-
-### Users
-
-### Products
