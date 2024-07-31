@@ -4,7 +4,7 @@ import { pool } from "../../db";
 export const router = Router();
 
 // GET /midTermAPI/v1/users
-router.use("/", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   const data = await pool.query(`SELECT * FROM users;`);
   res.json(data.rows);
 });
