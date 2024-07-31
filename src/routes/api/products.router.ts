@@ -22,11 +22,11 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 // POST /midTermAPI/v1/products
 router.post("/", async (req: Request, res: Response) => {
-  const { title, price, description, image_url } = req.body;
+  const { title, price, description, image } = req.body;
 
   const data = await pool.query(
-    `INSERT INTO products (title, price, description, image_url) VALUES ($1, $2, $3, $4) RETURNING *;`,
-    [title, price, description, image_url]
+    `INSERT INTO products (title, price, description, image) VALUES ($1, $2, $3, $4) RETURNING *;`,
+    [title, price, description, image]
   );
 
   res.status(201).json(data.rows[0]);
@@ -42,16 +42,16 @@ router.put("/:id", async (req: Request, res: Response) => {
     return res.status(404).json({ message: `Product with id ${id} not found` });
   }
 
-  const { title, price, description, image_url } = req.body;
+  const { title, price, description, image } = req.body;
 
   const updateProduct = await pool.query(
     `
       UPDATE products 
-      SET title = $1, price = $2, description = $3, image_url = $4
+      SET title = $1, price = $2, description = $3, image = $4
       WHERE id = $5 
       RETURNING *
     `,
-    [title, price, description, image_url, id]
+    [title, price, description, image, id]
   );
   res.json(updateProduct.rows[0]);
 });
